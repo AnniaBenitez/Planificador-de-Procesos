@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Vista;
+
+import Controlador.ControladorExcel;
+import Modelo.ModeloExcel;
 
 /**
  *
@@ -28,13 +27,14 @@ public class MainPage extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         TablaPanel = new javax.swing.JPanel();
-        importar_btn = new javax.swing.JButton();
+        btnImportar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtDatos = new javax.swing.JTable();
         jScrollBar1 = new javax.swing.JScrollBar();
         OperationPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("mainPage");
 
         jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 18)); // NOI18N
         jLabel1.setText("Planificador de procesos");
@@ -42,14 +42,14 @@ public class MainPage extends javax.swing.JFrame {
         TablaPanel.setBackground(new java.awt.Color(204, 204, 204));
         TablaPanel.setForeground(new java.awt.Color(204, 204, 204));
 
-        importar_btn.setText("IMPORTAR");
-        importar_btn.addActionListener(new java.awt.event.ActionListener() {
+        btnImportar.setText("IMPORTAR");
+        btnImportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importar_btnActionPerformed(evt);
+                btnImportarActionPerformed(evt);
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtDatos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -59,8 +59,23 @@ public class MainPage extends javax.swing.JFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jtDatos.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jtDatos);
+        if (jtDatos.getColumnModel().getColumnCount() > 0) {
+            jtDatos.getColumnModel().getColumn(0).setResizable(false);
+            jtDatos.getColumnModel().getColumn(1).setResizable(false);
+            jtDatos.getColumnModel().getColumn(2).setResizable(false);
+            jtDatos.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         javax.swing.GroupLayout TablaPanelLayout = new javax.swing.GroupLayout(TablaPanel);
         TablaPanel.setLayout(TablaPanelLayout);
@@ -70,7 +85,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TablaPanelLayout.createSequentialGroup()
-                        .addComponent(importar_btn)
+                        .addComponent(btnImportar)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(TablaPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
@@ -82,7 +97,7 @@ public class MainPage extends javax.swing.JFrame {
             TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TablaPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(importar_btn)
+                .addComponent(btnImportar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
@@ -134,9 +149,13 @@ public class MainPage extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void importar_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importar_btnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_importar_btnActionPerformed
+    private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
+            // Crear una instancia del controlador
+        ControladorExcel controlador = new ControladorExcel(this, new ModeloExcel());
+
+        // Llamar al método de importación del controlador
+        controlador.actionPerformed(evt);
+    }//GEN-LAST:event_btnImportarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -175,11 +194,11 @@ public class MainPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel OperationPanel;
-    private javax.swing.JPanel TablaPanel;
-    public javax.swing.JButton importar_btn;
+    public javax.swing.JPanel TablaPanel;
+    public javax.swing.JButton btnImportar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollBar jScrollBar1;
+    public javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public javax.swing.JTable jtDatos;
     // End of variables declaration//GEN-END:variables
 }
