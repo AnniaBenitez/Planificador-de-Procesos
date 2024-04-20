@@ -25,18 +25,35 @@ public class MainPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBox1 = new javax.swing.JCheckBox();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         TablaPanel = new javax.swing.JPanel();
         btnImportar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtDatos = new javax.swing.JTable();
-        jScrollBar1 = new javax.swing.JScrollBar();
+        labelProcesos = new javax.swing.JLabel();
         OperationPanel = new javax.swing.JPanel();
+        FCFS = new javax.swing.JCheckBox();
+        labelAlgoritmos = new javax.swing.JLabel();
+        SJSNoDesalojo = new javax.swing.JCheckBox();
+        SJSDesalojo = new javax.swing.JCheckBox();
+        Prioridad = new javax.swing.JCheckBox();
+        RR = new javax.swing.JCheckBox();
+        HRRN = new javax.swing.JCheckBox();
+        quantums = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        CalcularProcesos = new javax.swing.JButton();
+
+        jCheckBox1.setText("jCheckBox1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("mainPage");
 
-        jLabel1.setFont(new java.awt.Font("Showcard Gothic", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel1.setText("Planificador de procesos");
 
         TablaPanel.setBackground(new java.awt.Color(204, 204, 204));
@@ -77,6 +94,8 @@ public class MainPage extends javax.swing.JFrame {
             jtDatos.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        labelProcesos.setText("Importar Procesos a leer");
+
         javax.swing.GroupLayout TablaPanelLayout = new javax.swing.GroupLayout(TablaPanel);
         TablaPanel.setLayout(TablaPanelLayout);
         TablaPanelLayout.setHorizontalGroup(
@@ -84,66 +103,161 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(TablaPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
                     .addGroup(TablaPanelLayout.createSequentialGroup()
                         .addComponent(btnImportar)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(TablaPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(labelProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         TablaPanelLayout.setVerticalGroup(
             TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(TablaPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnImportar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(TablaPanelLayout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(labelProcesos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnImportar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         OperationPanel.setBackground(new java.awt.Color(204, 204, 204));
         OperationPanel.setForeground(new java.awt.Color(204, 204, 204));
 
+        FCFS.setText("FCFS");
+
+        labelAlgoritmos.setText("Seleccionar Algoritmos");
+
+        SJSNoDesalojo.setText("SJS sin desalojo");
+        SJSNoDesalojo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SJSNoDesalojoActionPerformed(evt);
+            }
+        });
+
+        SJSDesalojo.setText("SJS con desalojo");
+        SJSDesalojo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SJSDesalojoActionPerformed(evt);
+            }
+        });
+
+        Prioridad.setText("Prioridad");
+
+        RR.setText("RR");
+        RR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RRActionPerformed(evt);
+            }
+        });
+
+        HRRN.setText("HRRN");
+
+        quantums.setText("8");
+        quantums.setEnabled(false);
+        quantums.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quantumsActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Q =");
+
         javax.swing.GroupLayout OperationPanelLayout = new javax.swing.GroupLayout(OperationPanel);
         OperationPanel.setLayout(OperationPanelLayout);
         OperationPanelLayout.setHorizontalGroup(
             OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+            .addGroup(OperationPanelLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperationPanelLayout.createSequentialGroup()
+                        .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(OperationPanelLayout.createSequentialGroup()
+                                .addComponent(SJSNoDesalojo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperationPanelLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quantums, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(OperationPanelLayout.createSequentialGroup()
+                        .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelAlgoritmos)
+                            .addComponent(SJSDesalojo)
+                            .addGroup(OperationPanelLayout.createSequentialGroup()
+                                .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(FCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Prioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(44, 44, 44)
+                                .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(RR, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(HRRN, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(84, Short.MAX_VALUE))))
         );
         OperationPanelLayout.setVerticalGroup(
             OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(OperationPanelLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(labelAlgoritmos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(FCFS)
+                    .addComponent(RR))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(HRRN)
+                    .addComponent(Prioridad))
+                .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(OperationPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SJSDesalojo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SJSNoDesalojo)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperationPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(quantums, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(17, 17, 17))))
         );
+
+        CalcularProcesos.setText("Calcular Procesos");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(295, 295, 295)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(TablaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(11, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addComponent(TablaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(OperationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(335, 335, 335)
+                .addComponent(CalcularProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel1)
-                .addGap(33, 33, 33)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(TablaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(OperationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CalcularProcesos)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,6 +270,26 @@ public class MainPage extends javax.swing.JFrame {
         // Llamar al método de importación del controlador
         controlador.actionPerformed(evt);
     }//GEN-LAST:event_btnImportarActionPerformed
+
+    private void SJSNoDesalojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SJSNoDesalojoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SJSNoDesalojoActionPerformed
+
+    private void SJSDesalojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SJSDesalojoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SJSDesalojoActionPerformed
+
+    private void quantumsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantumsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_quantumsActionPerformed
+
+    private void RRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RRActionPerformed
+        if (RR.isSelected()) { // Si el JCheckBox está seleccionado (activo)
+            quantums.setEnabled(true); // Habilitar el JTextField
+        } else {
+            quantums.setEnabled(false); // Si no, deshabilitarlo
+        }
+    }//GEN-LAST:event_RRActionPerformed
 
     /**
      * @param args the command line arguments
@@ -193,12 +327,27 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JButton CalcularProcesos;
+    public javax.swing.JCheckBox FCFS;
+    public javax.swing.JCheckBox HRRN;
     private javax.swing.JPanel OperationPanel;
+    public javax.swing.JCheckBox Prioridad;
+    public javax.swing.JCheckBox RR;
+    public javax.swing.JCheckBox SJSDesalojo;
+    public javax.swing.JCheckBox SJSNoDesalojo;
     public javax.swing.JPanel TablaPanel;
     public javax.swing.JButton btnImportar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
-    public javax.swing.JScrollBar jScrollBar1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jtDatos;
+    private javax.swing.JLabel labelAlgoritmos;
+    private javax.swing.JLabel labelProcesos;
+    public javax.swing.JTextField quantums;
     // End of variables declaration//GEN-END:variables
 }
