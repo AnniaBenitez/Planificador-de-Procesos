@@ -9,12 +9,18 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
 /**
- *
+ * Clase modelo Excel
  * @author Annia Benítez 
  */
 public class ModeloExcel {
     Workbook wb;
     
+    /**
+     * Permite importar o subir un archivo excel o csv al programa
+     * @param archivo
+     * @param tablaD
+     * @return respuesta exitosa o no mediante string
+     */
     public String Importar(File archivo, JTable tablaD){
         String respuesta = "No se pudo importar :(";
         DefaultTableModel modeloTabla = new DefaultTableModel();
@@ -60,6 +66,43 @@ public class ModeloExcel {
             respuesta = "Importación Exitosa :D";
         }
         catch(Exception e){}        
+        return respuesta;
+    }
+    
+    /**
+     * Permite exportar un archivo excel o csv 
+     * @param archivo
+     * @param tablaD
+     * @return mensaje de exito o fracaso
+     */
+    public String Exportar(File archivo, JTable tablaD){
+        String respuesta = "Exportación sin exito :(";
+        int numeroFila = tablaD.getRowCount(), 
+            numeroColumna = tablaD.getColumnCount();
+        if(archivo.getName().endsWith("xls")){
+            wb = new HSSFWorkbook();
+        }
+        else{
+            wb = new XSSFWorkbook();
+        }
+        Sheet hoja = wb.createSheet("Nueva Hoja");
+        try{
+            for(int i = -1; i < numeroFila; i++){
+                Row fila = hoja.createRow(i+1);
+                for(int j=0; j<numeroColumna; j++){
+                    Cell celda = fila.createCell(i);
+                    if(i == -1){
+                        celda.setCellValue(String.valueOf(tablaD.getColumnName(j)));
+                    }
+                    else{
+                        celda.setCellValue(String.valueOf(tablaD.getValueAt(i,j)));
+                    }
+                    wb.write(new FileOutputStream(archivo));
+                }
+            }
+            respuesta = "Se exportó con exito :D";
+        }
+        catch(Exception e){}
         return respuesta;
     }
 }
