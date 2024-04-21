@@ -90,7 +90,7 @@ public class ModeloExcel {
             for(int i = -1; i < numeroFila; i++){
                 Row fila = hoja.createRow(i+1);
                 for(int j=0; j<numeroColumna; j++){
-                    Cell celda = fila.createCell(i);
+                    Cell celda = fila.createCell(j);
                     if(i == -1){
                         celda.setCellValue(String.valueOf(tablaD.getColumnName(j)));
                     }
