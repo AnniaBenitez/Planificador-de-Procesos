@@ -6,6 +6,12 @@ import Modelo.ModeloExcel;
 import java.util.List;
 import java.util.ArrayList;
 import Algoritmos.FCFS;
+import Algoritmos.Prioridad;
+import Algoritmos.RR;
+import Algoritmos.HRRN;
+import Algoritmos.SJFDesalojo;
+import Algoritmos.SJFNoDesalojo;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,8 +51,8 @@ public class MainPage extends javax.swing.JFrame {
         OperationPanel = new javax.swing.JPanel();
         cbFCFS = new javax.swing.JCheckBox();
         labelAlgoritmos = new javax.swing.JLabel();
-        cbSJSNoDesalojo = new javax.swing.JCheckBox();
-        cbSJSDesalojo = new javax.swing.JCheckBox();
+        cbSJFNoDesalojo = new javax.swing.JCheckBox();
+        cbSJFDesalojo = new javax.swing.JCheckBox();
         cbPrioridad = new javax.swing.JCheckBox();
         cbRR = new javax.swing.JCheckBox();
         cbHRRN = new javax.swing.JCheckBox();
@@ -138,17 +144,17 @@ public class MainPage extends javax.swing.JFrame {
 
         labelAlgoritmos.setText("Seleccionar Algoritmos");
 
-        cbSJSNoDesalojo.setText("SJS sin desalojo");
-        cbSJSNoDesalojo.addActionListener(new java.awt.event.ActionListener() {
+        cbSJFNoDesalojo.setText("SJF sin desalojo");
+        cbSJFNoDesalojo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSJSNoDesalojoActionPerformed(evt);
+                cbSJFNoDesalojoActionPerformed(evt);
             }
         });
 
-        cbSJSDesalojo.setText("SJS con desalojo");
-        cbSJSDesalojo.addActionListener(new java.awt.event.ActionListener() {
+        cbSJFDesalojo.setText("SJF con desalojo");
+        cbSJFDesalojo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbSJSDesalojoActionPerformed(evt);
+                cbSJFDesalojoActionPerformed(evt);
             }
         });
 
@@ -183,7 +189,7 @@ public class MainPage extends javax.swing.JFrame {
                     .addGroup(OperationPanelLayout.createSequentialGroup()
                         .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(OperationPanelLayout.createSequentialGroup()
-                                .addComponent(cbSJSNoDesalojo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cbSJFNoDesalojo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperationPanelLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -194,7 +200,7 @@ public class MainPage extends javax.swing.JFrame {
                     .addGroup(OperationPanelLayout.createSequentialGroup()
                         .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelAlgoritmos)
-                            .addComponent(cbSJSDesalojo)
+                            .addComponent(cbSJFDesalojo)
                             .addGroup(OperationPanelLayout.createSequentialGroup()
                                 .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbFCFS, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,9 +227,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(OperationPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbSJSDesalojo)
+                        .addComponent(cbSJFDesalojo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbSJSNoDesalojo)
+                        .addComponent(cbSJFNoDesalojo)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperationPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -283,13 +289,13 @@ public class MainPage extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnImportarActionPerformed
 
-    private void cbSJSNoDesalojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSJSNoDesalojoActionPerformed
+    private void cbSJFNoDesalojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSJFNoDesalojoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbSJSNoDesalojoActionPerformed
+    }//GEN-LAST:event_cbSJFNoDesalojoActionPerformed
 
-    private void cbSJSDesalojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSJSDesalojoActionPerformed
+    private void cbSJFDesalojoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSJFDesalojoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbSJSDesalojoActionPerformed
+    }//GEN-LAST:event_cbSJFDesalojoActionPerformed
 
     private void quantumsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantumsActionPerformed
         // TODO add your handling code here:
@@ -304,8 +310,53 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_cbRRActionPerformed
     
     private void CalcularProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularProcesosActionPerformed
-        FCFS.ejecutar(procesos);
+       
+        
+        if (cbFCFS.isSelected()) {
+            FCFS.ejecutar(procesos);
+        }
+        if (cbPrioridad.isSelected()) {
+            Prioridad.ejecutar(procesos);
+        }
+        if (cbSJFDesalojo.isSelected()) {
+            SJFDesalojo.ejecutar(procesos);
+        }
+        if (cbSJFNoDesalojo.isSelected()) {
+            SJFNoDesalojo.ejecutar(procesos);
+        }
+        if (cbRR.isSelected()) {
+            if(verificarQuantums() > 0){
+                RR.ejecutar(procesos);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Elija un número de quantums válido!!");
+            }
+        }
+        if (cbHRRN.isSelected()) {
+            HRRN.ejecutar(procesos);
+        }
+        
+        
+        
+        
     }//GEN-LAST:event_CalcularProcesosActionPerformed
+    /**
+     * Verifica que el número de quantums sea válido
+     * @return 0 si no es válido, otro número si sí lo es
+     */
+    private int verificarQuantums() {
+        String quantumsText = quantums.getText();
+        if (!quantumsText.isEmpty()) {
+            try {
+                int quantumValue = Integer.parseInt(quantumsText);
+                return quantumValue;
+            } catch (NumberFormatException e) {
+                System.err.println("Error: El valor ingresado en quantums no es un número válido");
+                return 0;
+            }
+        }
+        return 0;
+    }
     
     /**
      * @param args the command line arguments
@@ -355,8 +406,8 @@ public class MainPage extends javax.swing.JFrame {
     public javax.swing.JCheckBox cbHRRN;
     public javax.swing.JCheckBox cbPrioridad;
     public javax.swing.JCheckBox cbRR;
-    public javax.swing.JCheckBox cbSJSDesalojo;
-    public javax.swing.JCheckBox cbSJSNoDesalojo;
+    public javax.swing.JCheckBox cbSJFDesalojo;
+    public javax.swing.JCheckBox cbSJFNoDesalojo;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
