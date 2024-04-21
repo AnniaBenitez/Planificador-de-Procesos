@@ -21,10 +21,13 @@ public class ModeloExcel {
      * @param tablaD
      * @return respuesta exitosa o no mediante string
      */
-    public String Importar(File archivo, JTable tablaD){
+    public String Importar(File archivo, JTable tablaD, List<ModeloBCP> procesos){
         String respuesta = "No se pudo importar :(";
         DefaultTableModel modeloTabla = new DefaultTableModel();
         tablaD.setModel(modeloTabla);
+        // Inicializar la lista de procesos
+        procesos.clear();
+        
         try{
             wb = WorkbookFactory.create(new FileInputStream(archivo));
             Sheet hoja = wb.getSheetAt(0);
@@ -36,6 +39,9 @@ public class ModeloExcel {
                 Iterator columnaIterator = fila.cellIterator();
                 Object[] listaColumna = new Object[5];
                 int indiceColumna = -1;
+                
+                ModeloBCP proceso = new ModeloBCP("", 0, 0, 0, 0);
+                
                 while(columnaIterator.hasNext()){
                     indiceColumna++;
                     Cell celda = (Cell) columnaIterator.next();
@@ -45,23 +51,32 @@ public class ModeloExcel {
                     else{
                         if(celda != null){
                             switch(celda.getCellType()){
-                                case Cell.CELL_TYPE_NUMERIC:
+                                case Cell.CELL_TYPE_NUMERIC -> {
                                     listaColumna[indiceColumna] = (int) Math.round(celda.getNumericCellValue());
-                                    break;
-                                case Cell.CELL_TYPE_STRING:
+                                    switch(indiceColumna) {
+                                        case 0 -> proceso.setNombre(String.valueOf((int) Math.round(celda.getNumericCellValue())));
+                                        case 1 -> proceso.setTiempoLlegada((int) Math.round(celda.getNumericCellValue()));
+                                        case 2 -> proceso.setRafaga((int) Math.round(celda.getNumericCellValue()));
+                                        case 3 -> proceso.setPrioridad((int) Math.round(celda.getNumericCellValue()));
+                                    }
+                                }
+
+                                case Cell.CELL_TYPE_STRING -> {
                                     listaColumna[indiceColumna] = celda.getStringCellValue();
-                                    break;
-                                case Cell.CELL_TYPE_BOOLEAN:
-                                    listaColumna[indiceColumna] = celda.getBooleanCellValue();
-                                    break;
-                                default:
-                                    listaColumna[indiceColumna] = celda.getDateCellValue();
-                                    break;
+                                    switch(indiceColumna) {
+                                        case 0 -> proceso.setNombre(celda.getStringCellValue());
+                                    }
+                                }
+                                case Cell.CELL_TYPE_BOOLEAN -> listaColumna[indiceColumna] = celda.getBooleanCellValue();
+                                default -> listaColumna[indiceColumna] = celda.getDateCellValue();
                             }
                         }
                     }
                 }
-                if(indiceFila != 0) modeloTabla.addRow(listaColumna);
+                if(indiceFila != 0){
+                    modeloTabla.addRow(listaColumna);
+                    procesos.add(proceso);
+                }
             }
             respuesta = "Importación Exitosa :D";
         }
@@ -105,4 +120,6 @@ public class ModeloExcel {
         catch(Exception e){}
         return respuesta;
     }
+    
+    
 }

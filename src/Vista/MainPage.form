@@ -220,7 +220,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="SJSNoDesalojo" min="-2" pref="111" max="-2" attributes="0"/>
+                                  <Component id="cbSJSNoDesalojo" min="-2" pref="111" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -235,16 +235,16 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelAlgoritmos" min="-2" max="-2" attributes="0"/>
-                              <Component id="SJSDesalojo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="cbSJSDesalojo" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="FCFS" min="-2" pref="85" max="-2" attributes="0"/>
-                                      <Component id="Prioridad" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <Component id="cbFCFS" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <Component id="cbPrioridad" min="-2" pref="85" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="RR" min="-2" pref="85" max="-2" attributes="0"/>
-                                      <Component id="HRRN" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <Component id="cbRR" min="-2" pref="85" max="-2" attributes="0"/>
+                                      <Component id="cbHRRN" min="-2" pref="85" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -261,20 +261,20 @@
                   <Component id="labelAlgoritmos" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="FCFS" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="RR" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbFCFS" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbRR" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="HRRN" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="Prioridad" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbHRRN" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbPrioridad" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="SJSDesalojo" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbSJSDesalojo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="SJSNoDesalojo" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbSJSNoDesalojo" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
@@ -291,7 +291,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JCheckBox" name="FCFS">
+        <Component class="javax.swing.JCheckBox" name="cbFCFS">
           <Properties>
             <Property name="text" type="java.lang.String" value="FCFS"/>
           </Properties>
@@ -304,29 +304,29 @@
             <Property name="text" type="java.lang.String" value="Seleccionar Algoritmos"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="SJSNoDesalojo">
+        <Component class="javax.swing.JCheckBox" name="cbSJSNoDesalojo">
           <Properties>
             <Property name="text" type="java.lang.String" value="SJS sin desalojo"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SJSNoDesalojoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbSJSNoDesalojoActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="SJSDesalojo">
+        <Component class="javax.swing.JCheckBox" name="cbSJSDesalojo">
           <Properties>
             <Property name="text" type="java.lang.String" value="SJS con desalojo"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SJSDesalojoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbSJSDesalojoActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="Prioridad">
+        <Component class="javax.swing.JCheckBox" name="cbPrioridad">
           <Properties>
             <Property name="text" type="java.lang.String" value="Prioridad"/>
           </Properties>
@@ -334,18 +334,18 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="RR">
+        <Component class="javax.swing.JCheckBox" name="cbRR">
           <Properties>
             <Property name="text" type="java.lang.String" value="RR"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RRActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbRRActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="HRRN">
+        <Component class="javax.swing.JCheckBox" name="cbHRRN">
           <Properties>
             <Property name="text" type="java.lang.String" value="HRRN"/>
           </Properties>
@@ -376,6 +376,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Calcular Procesos"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CalcularProcesosActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
