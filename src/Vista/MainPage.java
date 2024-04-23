@@ -6,20 +6,26 @@ import Modelo.ModeloExcel;
 import java.util.List;
 import java.util.ArrayList;
 import Algoritmos.FCFS;
+import Algoritmos.FCFS.Resultado;
 import Algoritmos.Prioridad;
 import Algoritmos.RR;
 import Algoritmos.HRRN;
 import Algoritmos.SJFDesalojo;
 import Algoritmos.SJFNoDesalojo;
+import Utils.Utils;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Página principal para visualizacion del programa
  * @author Annia Benítez
  */
 public class MainPage extends javax.swing.JFrame {
 
+    //Variables 
     List<ModeloBCP> procesos = new ArrayList<>();
+    int tiempoTotal;
+    String titulo[];
 
     /**
      * Creates new form MainPage
@@ -42,6 +48,7 @@ public class MainPage extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
+        panelMenu = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         TablaPanel = new javax.swing.JPanel();
         btnImportar = new javax.swing.JButton();
@@ -59,6 +66,7 @@ public class MainPage extends javax.swing.JFrame {
         quantums = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         CalcularProcesos = new javax.swing.JButton();
+        panelTablas = new javax.swing.JScrollPane();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -115,7 +123,7 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(TablaPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(TablaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1027, Short.MAX_VALUE)
                     .addGroup(TablaPanelLayout.createSequentialGroup()
                         .addComponent(btnImportar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -133,8 +141,8 @@ public class MainPage extends javax.swing.JFrame {
                         .addComponent(labelProcesos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(btnImportar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         OperationPanel.setBackground(new java.awt.Color(204, 204, 204));
@@ -230,7 +238,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addComponent(cbSJFDesalojo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbSJFNoDesalojo)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(91, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, OperationPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(OperationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -246,46 +254,90 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
+        panelMenu.setLayout(panelMenuLayout);
+        panelMenuLayout.setHorizontalGroup(
+            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
+                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(CalcularProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMenuLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelTablas)
+                            .addGroup(panelMenuLayout.createSequentialGroup()
+                                .addComponent(TablaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(OperationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(31, 31, 31))
+            .addGroup(panelMenuLayout.createSequentialGroup()
+                .addGap(586, 586, 586)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelMenuLayout.setVerticalGroup(
+            panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMenuLayout.createSequentialGroup()
+                .addGroup(panelMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addContainerGap(45, Short.MAX_VALUE)
+                        .addComponent(OperationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelMenuLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(TablaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(CalcularProcesos)
+                .addGap(12, 12, 12)
+                .addComponent(panelTablas, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(11, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addComponent(TablaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(OperationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(335, 335, 335)
-                .addComponent(CalcularProcesos, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(panelMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel1)
-                .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(TablaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(OperationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CalcularProcesos)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addComponent(panelMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Boton que se encarga del evento importar, para importar el excel con procesos
+     * @param evt 
+     */
     private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
         // Crear una instancia del controlador
         ControladorExcel controlador = new ControladorExcel(this, new ModeloExcel(), procesos);
 
         // Llamar al método de importación del controlador
         controlador.actionPerformed(evt);
+
+        //calcular el tiempo total del excel
+        tiempoTotal = Utils.obtenerTiempoTotal(procesos);
+        
+        /*cargamos un titulo para la matriz*/
+        titulo = new String[tiempoTotal];
+        for (int i = 0; i < tiempoTotal; i++) {
+            titulo[i] = "T" + i;
+        }
+        
+        // Imprimir los valores del arreglo titulo
+    System.out.println("Contenido del arreglo titulo:");
+    for (String col : titulo) {
+        System.out.print(col + "\t");
+    }
+    System.out.println();
 
     }//GEN-LAST:event_btnImportarActionPerformed
 
@@ -308,12 +360,17 @@ public class MainPage extends javax.swing.JFrame {
             quantums.setEnabled(false); // Si no, deshabilitarlo
         }
     }//GEN-LAST:event_cbRRActionPerformed
-    
+
+    /**
+     * Evento para el boton de calcular, que permite ejecutar todos los procesos marcados
+     * @param evt 
+     */
     private void CalcularProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularProcesosActionPerformed
-       
-        
+        Resultado panel;
+        //Imprimimos los nuevos graficos
         if (cbFCFS.isSelected()) {
-            FCFS.ejecutar(procesos);
+            panel = FCFS.ejecutar(procesos);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
         }
         if (cbPrioridad.isSelected()) {
             Prioridad.ejecutar(procesos);
@@ -325,23 +382,20 @@ public class MainPage extends javax.swing.JFrame {
             SJFNoDesalojo.ejecutar(procesos);
         }
         if (cbRR.isSelected()) {
-            if(verificarQuantums() > 0){
+            if (verificarQuantums() > 0) {
                 RR.ejecutar(procesos);
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Elija un número de quantums válido!!");
             }
         }
         if (cbHRRN.isSelected()) {
             HRRN.ejecutar(procesos);
         }
-        
-        
-        
-        
+
     }//GEN-LAST:event_CalcularProcesosActionPerformed
     /**
      * Verifica que el número de quantums sea válido
+     *
      * @return 0 si no es válido, otro número si sí lo es
      */
     private int verificarQuantums() {
@@ -357,7 +411,25 @@ public class MainPage extends javax.swing.JFrame {
         }
         return 0;
     }
-    
+
+    /**
+     * Agrega la matriz resultante del proceso al Frame
+     * @param panel 
+     */
+    private void agregarTabla(String[][] panel, double espera, double respuesta) {
+        // Obtener el modelo de la tabla en contenedorTablas
+        DefaultTableModel model = (DefaultTableModel) contenedorTablas.getTablaParaAlgoritmo().getModel();
+
+        // Limpiar la tabla antes de cargar nuevos datos
+        model.setRowCount(0);
+
+        // Cargar los datos de la nueva tabla en la tabla en contenedorTablas
+        contenedorTablas.cargarDatosEjercicio(panel, titulo, espera, respuesta);
+        
+        // Establecer la vista de desplazamiento en el panelTablas
+        panelTablas.setViewportView(contenedorTablas);    
+    }
+     
     /**
      * @param args the command line arguments
      */
@@ -415,6 +487,9 @@ public class MainPage extends javax.swing.JFrame {
     public javax.swing.JTable jtDatos;
     private javax.swing.JLabel labelAlgoritmos;
     private javax.swing.JLabel labelProcesos;
+    public javax.swing.JPanel panelMenu;
+    public javax.swing.JScrollPane panelTablas;
     public javax.swing.JTextField quantums;
     // End of variables declaration//GEN-END:variables
+    private tablas contenedorTablas = new tablas();
 }
