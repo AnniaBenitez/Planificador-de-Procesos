@@ -6,7 +6,7 @@ import Modelo.ModeloExcel;
 import java.util.List;
 import java.util.ArrayList;
 import Algoritmos.FCFS;
-import Algoritmos.FCFS.Resultado;
+import Modelo.Resultado;
 import Algoritmos.Prioridad;
 import Algoritmos.RR;
 import Algoritmos.HRRN;
@@ -331,13 +331,6 @@ public class MainPage extends javax.swing.JFrame {
         for (int i = 0; i < tiempoTotal; i++) {
             titulo[i] = "T" + i;
         }
-        
-        // Imprimir los valores del arreglo titulo
-    System.out.println("Contenido del arreglo titulo:");
-    for (String col : titulo) {
-        System.out.print(col + "\t");
-    }
-    System.out.println();
 
     }//GEN-LAST:event_btnImportarActionPerformed
 
@@ -369,27 +362,38 @@ public class MainPage extends javax.swing.JFrame {
         Resultado panel;
         //Imprimimos los nuevos graficos
         if (cbFCFS.isSelected()) {
+            Utils.reiniciarRafagasEjecutadas(procesos);
             panel = FCFS.ejecutar(procesos);
             agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
         }
         if (cbPrioridad.isSelected()) {
-            Prioridad.ejecutar(procesos);
+            Utils.reiniciarRafagasEjecutadas(procesos);
+            panel = Prioridad.ejecutar(procesos);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
         }
         if (cbSJFDesalojo.isSelected()) {
-            SJFDesalojo.ejecutar(procesos);
+            Utils.reiniciarRafagasEjecutadas(procesos);
+            panel = SJFDesalojo.ejecutar(procesos);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
         }
         if (cbSJFNoDesalojo.isSelected()) {
-            SJFNoDesalojo.ejecutar(procesos);
+            Utils.reiniciarRafagasEjecutadas(procesos);
+            panel = SJFNoDesalojo.ejecutar(procesos);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
         }
         if (cbRR.isSelected()) {
-            if (verificarQuantums() > 0) {
-                RR.ejecutar(procesos);
+            int quantum = verificarQuantums();
+            if (quantum> 0) {
+                Utils.reiniciarRafagasEjecutadas(procesos);
+                panel = RR.ejecutar(procesos,quantum);
+                agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
             } else {
                 JOptionPane.showMessageDialog(null, "Elija un número de quantums válido!!");
             }
         }
         if (cbHRRN.isSelected()) {
-            HRRN.ejecutar(procesos);
+            Utils.reiniciarRafagasEjecutadas(procesos);
+            //panel = HRRN.ejecutar(procesos);
         }
 
     }//GEN-LAST:event_CalcularProcesosActionPerformed
@@ -416,7 +420,8 @@ public class MainPage extends javax.swing.JFrame {
      * Agrega la matriz resultante del proceso al Frame
      * @param panel 
      */
-    private void agregarTabla(String[][] panel, double espera, double respuesta) {
+    private void agregarTabla(String[][] panel, double espera, double respuesta) {        
+        tablas contenedorTablas = new tablas();
         // Obtener el modelo de la tabla en contenedorTablas
         DefaultTableModel model = (DefaultTableModel) contenedorTablas.getTablaParaAlgoritmo().getModel();
 
@@ -491,5 +496,5 @@ public class MainPage extends javax.swing.JFrame {
     public javax.swing.JScrollPane panelTablas;
     public javax.swing.JTextField quantums;
     // End of variables declaration//GEN-END:variables
-    private tablas contenedorTablas = new tablas();
+ 
 }

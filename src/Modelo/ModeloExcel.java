@@ -40,7 +40,7 @@ public class ModeloExcel {
                 Object[] listaColumna = new Object[5];
                 int indiceColumna = -1;
                 
-                ModeloBCP proceso = new ModeloBCP("", 0, 0, 0, 0);
+                ModeloBCP proceso = new ModeloBCP("", 0, 0, 0, 0, 0);
                 
                 while(columnaIterator.hasNext()){
                     indiceColumna++;

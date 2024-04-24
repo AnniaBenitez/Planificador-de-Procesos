@@ -51,7 +51,7 @@ public class HRRN {
         }
 
         // Mostrar el gráfico
-        Utils.mostrarGrafico(grafico, procesos);
+   
 
         // Calcular promedios
         double promedioEspera = (double) tiempoEsperaTotal / procesos.size();

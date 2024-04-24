@@ -7,19 +7,17 @@ package Algoritmos;
 import Modelo.ModeloBCP;
 import java.util.List;
 import Utils.Utils;
+import Modelo.Resultado;
 
 // Clase para implementar el algoritmo FCFS
 public class FCFS {
 
-    public static class Resultado {
-
-        public String[][] grafico;
-        public double promedioEspera;
-        public double promedioRespuesta;
-    }
-
     public static Resultado ejecutar(List<ModeloBCP> procesos) {
 
+        for(ModeloBCP proceso: procesos){
+            System.out.println(proceso);
+        }
+        
         int tiempoActual = 0;
         int tiempoEsperaTotal = 0;
         int tiempoRespuestaTotal = 0;
@@ -62,10 +60,7 @@ public class FCFS {
         double promedioEspera = (double) tiempoEsperaTotal / procesos.size();
         double promedioRespuesta = (double) tiempoRespuestaTotal / procesos.size();
 
-        Resultado resultado = new Resultado();
-        resultado.grafico = grafico;
-        resultado.promedioEspera = promedioEspera;
-        resultado.promedioRespuesta = promedioRespuesta;
+        Resultado resultado = new Resultado(grafico, promedioEspera, promedioRespuesta);
 
         return resultado;
 

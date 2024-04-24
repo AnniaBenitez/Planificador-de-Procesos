@@ -28,20 +28,28 @@ public class Utils {
     }
     return grafico;
    }
-
-
-   // Mostrar el gráfico
-   static public void mostrarGrafico(String[][] grafico, List<ModeloBCP> p) {
-    System.out.println("\nGráfico:");
-    for (int i = 0; i < grafico.length; i++) {
-        System.out.print("P" + p.get(i).getNombre() + ": ");
-        for (String c : grafico[i]) {
-            System.out.print(c);
+   
+   // Crear matriz para representar el gráfico
+   static public String[][] dibujarTablaProcesos(List<ModeloBCP> procesos, int tiempoTotal) {
+    String[][] grafico = new String[procesos.size()][tiempoTotal];
+    for (String[] row : grafico) {
+        for (int i = 0; i < row.length; i++) {
+            row[i] = " 0 ";
         }
-        System.out.println();
     }
+    return grafico;
    }
-
-   //TODO: Funcion que ordene los procesos por tiempo de llegada
+ 
+   static public boolean reiniciarRafagasEjecutadas(List<ModeloBCP> procesos){
+    for(ModeloBCP p : procesos){
+        try{
+            p.setRafagasEjecutadas(0);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+    return true;
+   }
    
 }

@@ -3,61 +3,61 @@ package Algoritmos;
 import Modelo.ModeloBCP;
 import Utils.Utils;
 import java.util.List;
+import Modelo.Resultado;
 
 /**
  *
  * @author Agustín Oviedo
  */
 public class SJFDesalojo {
-    public static void ejecutar(List<ModeloBCP> procesos) {
-        
+
+    public static Resultado ejecutar(List<ModeloBCP> procesos) {
+
         int tiempoActual = 0;
-        int tiempoEsperaTotal = 0;
-        int tiempoRespuestaTotal = 0;
+        int totalTiempoEspera = 0;
+        int totalTiempoRespuesta = 0;
 
         int tiempoTotal = Utils.obtenerTiempoTotal(procesos);
-        String grafico[][] = Utils.obtenerTiempoLlegadaTotal(procesos, tiempoTotal);
+        String grafico[][] = Utils.dibujarTablaProcesos(procesos, tiempoTotal);
 
-        while(tiempoActual < tiempoTotal) {
+        while (tiempoActual < tiempoTotal) {
+            ModeloBCP currentBcp = null;
+            int currentRow = 0;
 
             for (int j = 0; j < procesos.size(); j++) {
-              
-              ModeloBCP pTemp = procesos.get(j); //Proceso en ser verificado
-              int tiempoPrimeraEjecucion = 0;  //Tiempo de la primera vez que se ejecuta el proceso
-              
-              //Ejecutar peroceso si es que el tiempo actual corresponde a su tiempo de llegada o si el tiempo actual sobre pasa al tiempo de llegada
-              if (pTemp.getTiempoLlegada() <= tiempoActual) {
-                
-                //Obtener tiempo de respuesta
-                tiempoPrimeraEjecucion = tiempoActual;
-                tiempoEsperaTotal += tiempoPrimeraEjecucion - pTemp.getTiempoLlegada();
-                
-                //Obtener el tiempo de respuesta que seria cuando el proceso se ejecutara por primera vez
-                tiempoRespuestaTotal += tiempoPrimeraEjecucion - pTemp.getTiempoLlegada() + 1;
-                
-                //Dibujamos en la matriz los nodos de tiempo que el proceso en cuestion esta de espera
-                for(int k = pTemp.getTiempoLlegada(); k < tiempoActual; k++){
-                  grafico[j][k] = " w ";
+                ModeloBCP pTemp = procesos.get(j); // Proceso en ser verificado
+
+                if (pTemp.getTiempoLlegada() <= tiempoActual && pTemp.getRafagasEjecutadas() < pTemp.getRafaga()) {
+
+                    if (currentBcp == null || (currentBcp.getRafaga() - currentBcp.getRafagasEjecutadas()) > pTemp.getRafaga()) {
+                        currentBcp = pTemp;
+                        currentRow = j;
+                    }
+
                 }
 
-                //Dibujamos en la matriz el proceso en cuestion siendo ejecutado
-                while(tiempoActual - tiempoPrimeraEjecucion < pTemp.getRafaga()){
-                  grafico[j][tiempoActual] = " 1 ";
-                  tiempoActual++;
-                }
-              }
+                grafico[j][tiempoActual] = (0 == pTemp.getRafagasEjecutadas() && pTemp.getTiempoLlegada() <= tiempoActual) ? " W " : " 0 ";
 
             }
+
+            if (currentBcp != null) {
+                grafico[currentRow][tiempoActual] = " 1 ";
+                currentBcp.setRafagasEjecutadas(currentBcp.getRafagasEjecutadas() + 1);
+
+                if (currentBcp.getRafagasEjecutadas() == currentBcp.getRafaga()) {
+                    totalTiempoEspera += tiempoActual + 1 - currentBcp.getTiempoLlegada() - currentBcp.getRafagasEjecutadas();
+                    totalTiempoRespuesta += tiempoActual + 1 - currentBcp.getTiempoLlegada() - (currentBcp.getRafagasEjecutadas() - 1);
+                }
+            }
+
+            tiempoActual++;
         }
 
-        // Mostrar el gráfico
-        Utils.mostrarGrafico(grafico, procesos);
+        double promedioEspera = (double) totalTiempoEspera / procesos.size();
+        double promedioRespuesta = (double) totalTiempoRespuesta / procesos.size();
 
-        // Calcular promedios
-        double promedioEspera = (double) tiempoEsperaTotal / procesos.size();
-        double promedioRespuesta = (double) tiempoRespuestaTotal / procesos.size();
+        Resultado resultado = new Resultado(grafico, promedioEspera, promedioRespuesta);
 
-        System.out.println("\nTiempo promedio de espera: " + promedioEspera);
-        System.out.println("Tiempo promedio de respuesta: " + promedioRespuesta);
+        return resultado;
     }
 }
