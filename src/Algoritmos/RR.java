@@ -20,10 +20,6 @@ public class RR {
         int tiempoActual = 0;
         int totalTiempoRespuesta = 0;
         int totalTiempoEspera = 0;
-        
-        for(ModeloBCP proceso: procesos){
-            System.out.println(proceso);
-        }
 
         // Lista de Cola de procesos
         Queue<ModeloBCP> colaProcesos = new LinkedList<>();
