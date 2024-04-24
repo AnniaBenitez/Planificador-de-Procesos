@@ -3,61 +3,74 @@ package Algoritmos;
 import Modelo.ModeloBCP;
 import Utils.Utils;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import Modelo.Resultado;
 
 /**
  *
- * @author Annia Benítez
+ * @author Agustin Oviedo
  */
 public class HRRN {
-    public static void ejecutar(List<ModeloBCP> procesos) {
-        
-        int tiempoActual = 0;
-        int tiempoEsperaTotal = 0;
-        int tiempoRespuestaTotal = 0;
+    public static Resultado ejecutar(List<ModeloBCP> procesos) {
 
-        int tiempoTotal = Utils.obtenerTiempoTotal(procesos);
-        String grafico[][] = Utils.obtenerTiempoLlegadaTotal(procesos, tiempoTotal);
+      int tiempoActual = 0;
 
-        while(tiempoActual < tiempoTotal) {
+      int totalTiempoRespuesta = 0;
+      int totalTiempoEspera = 0;
 
-            for (int j = 0; j < procesos.size(); j++) {
-              
-              ModeloBCP pTemp = procesos.get(j); //Proceso en ser verificado
-              int tiempoPrimeraEjecucion = 0;  //Tiempo de la primera vez que se ejecuta el proceso
-              
-              //Ejecutar peroceso si es que el tiempo actual corresponde a su tiempo de llegada o si el tiempo actual sobre pasa al tiempo de llegada
-              if (pTemp.getTiempoLlegada() <= tiempoActual) {
-                
-                //Obtener tiempo de respuesta
-                tiempoPrimeraEjecucion = tiempoActual;
-                tiempoEsperaTotal += tiempoPrimeraEjecucion - pTemp.getTiempoLlegada();
-                
-                //Obtener el tiempo de respuesta que seria cuando el proceso se ejecutara por primera vez
-                tiempoRespuestaTotal += tiempoPrimeraEjecucion - pTemp.getTiempoLlegada() + 1;
-                
-                //Dibujamos en la matriz los nodos de tiempo que el proceso en cuestion esta de espera
-                for(int k = pTemp.getTiempoLlegada(); k < tiempoActual; k++){
-                  grafico[j][k] = " w ";
-                }
+      // Crear una lista para mantener los procesos que aún no han llegado
+      HashMap<ModeloBCP, Integer> pendientes = new HashMap<ModeloBCP, Integer>();
 
-                //Dibujamos en la matriz el proceso en cuestion siendo ejecutado
-                while(tiempoActual - tiempoPrimeraEjecucion < pTemp.getRafaga()){
-                  grafico[j][tiempoActual] = " 1 ";
-                  tiempoActual++;
-                }
-              }
+      for(int i = 0; i < procesos.size(); i++){
+        pendientes.put(procesos.get(i), (i));
+      }
 
-            }
+      // Crear matriz para representar el gráfico
+      int tiempoTotal = Utils.obtenerTiempoTotal(procesos); 
+      String grafico[][] = Utils.dibujarTablaProcesos(procesos, tiempoTotal);
+
+      // Buscar el proceso más corto que esté listo para ejecutarse
+      ModeloBCP procesoEjecutar = null;
+
+      while (tiempoActual < tiempoTotal) {
+
+        if(procesoEjecutar == null){
+          List<ModeloBCP> pendientesListTemp = new ArrayList<>(pendientes.keySet());
+          procesoEjecutar = Utils.calcularHRRN(pendientesListTemp, tiempoActual);
         }
 
-        // Mostrar el gráfico
-   
+        if(procesoEjecutar != null){
 
-        // Calcular promedios
-        double promedioEspera = (double) tiempoEsperaTotal / procesos.size();
-        double promedioRespuesta = (double) tiempoRespuestaTotal / procesos.size();
+          procesoEjecutar.setRafagasEjecutadas(procesoEjecutar.getRafaga());
 
-        System.out.println("\nTiempo promedio de espera: " + promedioEspera);
-        System.out.println("Tiempo promedio de respuesta: " + promedioRespuesta);
+          for(int i=tiempoActual; i<tiempoActual + procesoEjecutar.getRafaga(); i++){
+            // Ejecutar el proceso encontrado
+            for(ModeloBCP process : pendientes.keySet()){
+              if(process == procesoEjecutar){
+                grafico[pendientes.get(process)][i] = " 1 ";
+              }else if(process.getTiempoLlegada() <= tiempoActual && process.getRafaga() != process.getRafagasEjecutadas()){
+                grafico[pendientes.get(process)][i] = " W ";
+              }else{
+                grafico[pendientes.get(process)][i] = " 0 ";
+              }
+            }
+          }
+          
+          tiempoActual += procesoEjecutar.getRafaga();
+        }
+        totalTiempoEspera += tiempoActual - procesoEjecutar.getRafaga() - procesoEjecutar.getTiempoLlegada();
+        totalTiempoRespuesta += tiempoActual - procesoEjecutar.getRafaga() + 1 - procesoEjecutar.getTiempoLlegada();
+        pendientes.remove(procesoEjecutar); // Eliminar el proceso de la lista de pendientes
+        procesoEjecutar = null;
+      }
+
+     
+        double promedioEspera = (double) totalTiempoEspera / procesos.size();
+        double promedioRespuesta = (double) totalTiempoRespuesta / procesos.size();
+
+        Resultado resultado = new Resultado(grafico, promedioEspera, promedioRespuesta);
+
+        return resultado;
     }
 }

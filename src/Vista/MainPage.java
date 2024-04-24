@@ -15,6 +15,7 @@ import Algoritmos.SJFNoDesalojo;
 import Utils.Utils;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import Vista.Tablas;
 
 /**
  * Página principal para visualizacion del programa
@@ -26,7 +27,8 @@ public class MainPage extends javax.swing.JFrame {
     List<ModeloBCP> procesos = new ArrayList<>();
     int tiempoTotal;
     String titulo[];
-
+    private List<Tablas> tablas;
+    
     /**
      * Creates new form MainPage
      */
@@ -67,6 +69,7 @@ public class MainPage extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         CalcularProcesos = new javax.swing.JButton();
         panelTablas = new javax.swing.JScrollPane();
+        panelInterior = new javax.swing.JPanel();
 
         jCheckBox1.setText("jCheckBox1");
 
@@ -254,6 +257,9 @@ public class MainPage extends javax.swing.JFrame {
             }
         });
 
+        panelInterior.setLayout(new java.awt.GridLayout(0, 1));
+        panelTablas.setViewportView(panelInterior);
+
         javax.swing.GroupLayout panelMenuLayout = new javax.swing.GroupLayout(panelMenu);
         panelMenu.setLayout(panelMenuLayout);
         panelMenuLayout.setHorizontalGroup(
@@ -292,7 +298,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(CalcularProcesos)
                 .addGap(12, 12, 12)
-                .addComponent(panelTablas, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelTablas, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -331,6 +337,9 @@ public class MainPage extends javax.swing.JFrame {
         for (int i = 0; i < tiempoTotal; i++) {
             titulo[i] = "T" + i;
         }
+        
+        //Inicializamos la lista de tablas
+        tablas = new ArrayList<>();
 
     }//GEN-LAST:event_btnImportarActionPerformed
 
@@ -359,41 +368,44 @@ public class MainPage extends javax.swing.JFrame {
      * @param evt 
      */
     private void CalcularProcesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularProcesosActionPerformed
+        // Limpiar el panelInterior antes de agregar nuevas tablas
+        limpiarPanelInterior();
         Resultado panel;
         //Imprimimos los nuevos graficos
         if (cbFCFS.isSelected()) {
             Utils.reiniciarRafagasEjecutadas(procesos);
             panel = FCFS.ejecutar(procesos);
-            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta, "FCFS");
         }
         if (cbPrioridad.isSelected()) {
             Utils.reiniciarRafagasEjecutadas(procesos);
             panel = Prioridad.ejecutar(procesos);
-            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta, "Prioridad");
         }
         if (cbSJFDesalojo.isSelected()) {
             Utils.reiniciarRafagasEjecutadas(procesos);
             panel = SJFDesalojo.ejecutar(procesos);
-            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta, "SJF con Desalojo");
         }
         if (cbSJFNoDesalojo.isSelected()) {
             Utils.reiniciarRafagasEjecutadas(procesos);
             panel = SJFNoDesalojo.ejecutar(procesos);
-            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta, "SJF sin desalojo");
         }
         if (cbRR.isSelected()) {
             int quantum = verificarQuantums();
             if (quantum> 0) {
                 Utils.reiniciarRafagasEjecutadas(procesos);
                 panel = RR.ejecutar(procesos,quantum);
-                agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta);
+                agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta, "RR");
             } else {
                 JOptionPane.showMessageDialog(null, "Elija un número de quantums válido!!");
             }
         }
         if (cbHRRN.isSelected()) {
             Utils.reiniciarRafagasEjecutadas(procesos);
-            //panel = HRRN.ejecutar(procesos);
+            panel = HRRN.ejecutar(procesos);
+            agregarTabla(panel.grafico, panel.promedioEspera, panel.promedioRespuesta, "HRRN");
         }
 
     }//GEN-LAST:event_CalcularProcesosActionPerformed
@@ -420,8 +432,8 @@ public class MainPage extends javax.swing.JFrame {
      * Agrega la matriz resultante del proceso al Frame
      * @param panel 
      */
-    private void agregarTabla(String[][] panel, double espera, double respuesta) {        
-        tablas contenedorTablas = new tablas();
+    private void agregarTabla(String[][] panel, double espera, double respuesta, String proceso) {        
+        Tablas contenedorTablas = new Tablas();
         // Obtener el modelo de la tabla en contenedorTablas
         DefaultTableModel model = (DefaultTableModel) contenedorTablas.getTablaParaAlgoritmo().getModel();
 
@@ -429,12 +441,23 @@ public class MainPage extends javax.swing.JFrame {
         model.setRowCount(0);
 
         // Cargar los datos de la nueva tabla en la tabla en contenedorTablas
-        contenedorTablas.cargarDatosEjercicio(panel, titulo, espera, respuesta);
+        contenedorTablas.cargarDatosEjercicio(panel, titulo, espera, respuesta, proceso);
         
-        // Establecer la vista de desplazamiento en el panelTablas
-        panelTablas.setViewportView(contenedorTablas);    
+        panelInterior.add(contenedorTablas);
+        tablas.add(contenedorTablas);
+        panelInterior.updateUI();
     }
-     
+    
+    /**
+     * Método para limpiar el panelInterior
+     */
+    private void limpiarPanelInterior() {
+        tablas.clear();
+        panelInterior.removeAll();
+        panelInterior.revalidate();
+        panelInterior.repaint();
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -492,6 +515,7 @@ public class MainPage extends javax.swing.JFrame {
     public javax.swing.JTable jtDatos;
     private javax.swing.JLabel labelAlgoritmos;
     private javax.swing.JLabel labelProcesos;
+    public javax.swing.JPanel panelInterior;
     public javax.swing.JPanel panelMenu;
     public javax.swing.JScrollPane panelTablas;
     public javax.swing.JTextField quantums;
